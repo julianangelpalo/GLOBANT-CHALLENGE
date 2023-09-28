@@ -4,42 +4,42 @@ import avro.schema
 from avro.datafile import DataFileWriter
 from avro.io import DatumWriter
 
-# Connect to your SQLite database
+# Conectarse a la base de datos SQLite
 conn = sqlite3.connect('my_database_globant.db')
 
-# Directory where AVRO backups will be stored
+# Directorio donde se almacenarán las copias de seguridad AVRO
 backup_dir = 'backups'
 
-def create_backup(table_name, avro_schema):
+def crear_copia_seguridad(nombre_tabla, avro_esquema):
     try:
-        # Create the backup directory if it doesn't exist
+        # Crear el directorio de copias de seguridad si no existe
         if not os.path.exists(backup_dir):
             os.makedirs(backup_dir)
 
         cursor = conn.cursor()
-        cursor.execute(f"SELECT * FROM {table_name}")
+        cursor.execute(f"SELECT * FROM {nombre_tabla}")
 
-        # Fetch all rows from the table
-        rows = cursor.fetchall()
+        # Obtener todas las filas de la tabla
+        filas = cursor.fetchall()
 
-        # Define the AVRO file path
-        backup_file = os.path.join(backup_dir, f"{table_name}.avro")
+        # Definir la ruta del archivo AVRO
+        archivo_copia = os.path.join(backup_dir, f"{nombre_tabla}.avro")
 
-        # Write the data to the AVRO file
-        with open(backup_file, "wb") as avro_file:
-            avro_writer = DataFileWriter(avro_file, DatumWriter(), avro_schema)
-            for row in rows:
-                avro_writer.append({f"{col[0]}": row[i] for i, col in enumerate(cursor.description)})
+        # Escribir los datos en el archivo AVRO
+        with open(archivo_copia, "wb") as avro_file:
+            avro_writer = DataFileWriter(avro_file, DatumWriter(), avro_esquema)
+            for fila in filas:
+                avro_writer.append({f"{col[0]}": fila[i] for i, col in enumerate(cursor.description)})
             avro_writer.close()
 
-        return True, f"Backup of {table_name} created successfully: {backup_file}"
+        return True, f"Copia de seguridad de {nombre_tabla} creada con éxito: {archivo_copia}"
 
     except Exception as e:
-        return False, f"Error creating backup of {table_name}: {str(e)}"
+        return False, f"Error al crear la copia de seguridad de {nombre_tabla}: {str(e)}"
 
 if __name__ == '__main__':
-    # Define the AVRO schema for the 'departments' table
-    departments_avro_schema = avro.schema.parse('''
+    # Definir el esquema AVRO para la tabla 'departments'
+    esquema_avro_departments = avro.schema.parse('''
     {
         "type": "record",
         "name": "departments",
@@ -50,15 +50,15 @@ if __name__ == '__main__':
     }
     ''')
 
-    # Example: Create a backup of the 'departments' table
-    success_departments, message_departments = create_backup('departments', departments_avro_schema)
-    if success_departments:
-        print(message_departments)
+    # Ejemplo: Crear una copia de seguridad de la tabla 'departments'
+    exito_departments, mensaje_departments = crear_copia_seguridad('departments', esquema_avro_departments)
+    if exito_departments:
+        print(mensaje_departments)
     else:
-        print(f'Error: {message_departments}')
+        print(f'Error: {mensaje_departments}')
 
-    # Define the AVRO schema for the 'jobs' table
-    jobs_avro_schema = avro.schema.parse('''
+    # Definir el esquema AVRO para la tabla 'jobs'
+    esquema_avro_jobs = avro.schema.parse('''
     {
         "type": "record",
         "name": "jobs",
@@ -69,15 +69,15 @@ if __name__ == '__main__':
     }
     ''')
 
-    # Example: Create a backup of the 'jobs' table
-    success_jobs, message_jobs = create_backup('jobs', jobs_avro_schema)
-    if success_jobs:
-        print(message_jobs)
+    # Ejemplo: Crear una copia de seguridad de la tabla 'jobs'
+    exito_jobs, mensaje_jobs = crear_copia_seguridad('jobs', esquema_avro_jobs)
+    if exito_jobs:
+        print(mensaje_jobs)
     else:
-        print(f'Error: {message_jobs}')
+        print(f'Error: {mensaje_jobs}')
 
-    # Define the AVRO schema for the 'hired_employees' table
-    hired_employees_avro_schema = avro.schema.parse('''
+    # Definir el esquema AVRO para la tabla 'hired_employees'
+    esquema_avro_hired_employees = avro.schema.parse('''
     {
         "type": "record",
         "name": "hired_employees",
@@ -91,9 +91,9 @@ if __name__ == '__main__':
     }
     ''')
 
-    # Example: Create a backup of the 'hired_employees' table
-    success_hired_employees, message_hired_employees = create_backup('hired_employees', hired_employees_avro_schema)
-    if success_hired_employees:
-        print(message_hired_employees)
+    # Ejemplo: Crear una copia de seguridad de la tabla 'hired_employees'
+    exito_hired_employees, mensaje_hired_employees = crear_copia_seguridad('hired_employees', esquema_avro_hired_employees)
+    if exito_hired_employees:
+        print(mensaje_hired_employees)
     else:
-        print(f'Error: {message_hired_employees}')
+        print(f'Error: {mensaje_hired_employees}')
