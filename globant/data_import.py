@@ -2,9 +2,9 @@ import pandas as pd
 import sqlite3  # Suponiendo una base de datos SQLite
 
 # Definir las rutas de archivo para tus archivos XLSX
-hired_employees_file = '/Users/julianangel/Downloads/hired_employees.xlsx'
-departments_file = '/Users/julianangel/Downloads/departments.xlsx'
-jobs_file = '/Users/julianangel/Downloads/jobs.xlsx'
+hired_employees_file = 'hired_employees.xlsx'
+departments_file = 'departments.xlsx'
+jobs_file = 'jobs.xlsx'
 
 # Conexión a la base de datos
 conn = sqlite3.connect('my_database_globant.db')
