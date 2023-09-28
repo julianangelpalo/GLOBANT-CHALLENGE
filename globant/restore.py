@@ -39,4 +39,56 @@ def restaurar_tabla(nombre_tabla, esquema_avro):
                 cursor.execute(insertar_sql, tuple(fila.values()))
 
         conn.commit()
-        return True, f
+        return True, f"Tabla {nombre_tabla} restaurada exitosamente desde la copia de seguridad"
+
+    except Exception as e:
+        return False, f"Error al restaurar la tabla {nombre_tabla}: {str(e)}"
+
+if __name__ == '__main__':
+    # Define el esquema AVRO para la tabla 'departments' como un diccionario de Python
+    esquema_avro_departments = {
+        "fields": [
+            {"name": "id", "type": ["int", "null"]},
+            {"name": "department", "type": ["string", "null"]}
+        ]
+    }
+
+    # Define el esquema AVRO para la tabla 'jobs' como un diccionario de Python
+    esquema_avro_jobs = {
+        "fields": [
+            {"name": "id", "type": ["int", "null"]},
+            {"name": "job", "type": ["string", "null"]}
+        ]
+    }
+
+    # Define el esquema AVRO para la tabla 'hired_employees' como un diccionario de Python
+    esquema_avro_hired_employees = {
+        "fields": [
+            {"name": "id", "type": ["int", "null"]},
+            {"name": "name", "type": ["string", "null"]},
+            {"name": "datetime", "type": ["string", "null"]},
+            {"name": "department_id", "type": ["int", "null"]},
+            {"name": "job_id", "type": ["int", "null"]}
+        ]
+    }
+
+    # Ejemplo: Restaurar una tabla utilizando el esquema AVRO correspondiente
+    exito_departments, mensaje_departments = restaurar_tabla('departments', esquema_avro_departments)
+    if exito_departments:
+        print(mensaje_departments)
+    else:
+        print(f'Error: {mensaje_departments}')
+
+    # Ejemplo: Restaurar otra tabla
+    exito_jobs, mensaje_jobs = restaurar_tabla('jobs', esquema_avro_jobs)
+    if exito_jobs:
+        print(mensaje_jobs)
+    else:
+        print(f'Error: {mensaje_jobs}')
+
+    # Ejemplo: Restaurar la tabla 'hired_employees'
+    exito_hired_employees, mensaje_hired_employees = restaurar_tabla('hired_employees', esquema_avro_hired_employees)
+    if exito_hired_employees:
+        print(mensaje_hired_employees)
+    else:
+        print(f'Error: {mensaje_hired_employees}')
