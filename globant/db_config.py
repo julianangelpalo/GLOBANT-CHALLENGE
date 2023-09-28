@@ -23,7 +23,7 @@ def ejecutar_consulta(conn, consulta):
     except sqlite3.Error as e:
         print(f"Error al ejecutar la consulta SQL: {e}")
 
-# Puedes incluir otras funciones relacionadas con la base de datos según sea necesario
+
 
 if __name__ == "__main__":
     # Esta parte se puede utilizar para probar o ejecutar scripts independientes relacionados con operaciones de base de datos
