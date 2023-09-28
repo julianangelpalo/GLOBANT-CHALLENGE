@@ -72,4 +72,4 @@ def is_valid_data(data, table_name):
     return False
 
 if __name__ == '__main__':
-    app.run(port=8996)
+    app.run(port=8899)
