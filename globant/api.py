@@ -34,7 +34,7 @@ data_rules = {
     }
 }
 
-@app.route('/insert/<table_name>', methods=['POST'])
+@app.route('/insert/hired_employees', methods=['POST'])
 def insert_data(table_name):
     try:
         data = request.json  # Datos JSON de la solicitud
